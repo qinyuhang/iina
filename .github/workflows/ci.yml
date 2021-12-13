@@ -36,7 +36,7 @@ jobs:
           DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
 
       - name: Archive
-        run: tar cvJf ~/iina.tar.xz -C /Users/runner/Library/Developer/Xcode/DerivedData/iina-csbkugdtxazzqogjnydbothqrvib/Build/Products/Debug IINA.app 
+        run: tar cvJf ~/iina.tar.xz -C /Users/runner/Library/Developer/Xcode/DerivedData/iina-csbkugdtxazzqogjnydbothqrvib/Build/Products/Debug IINA.app
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
@@ -44,3 +44,13 @@ jobs:
           name: IINA
           path: ~/iina.tar.xz
 
+      - name: Create Artifacts
+        run: |
+            cp -R ~/Library/Developer/Xcode/DerivedData/iina-*/Build/Products/Debug ~/IINA
+            tar -czf IINA.tgz ~/IINA
+
+      - name: Upload Debug Build
+        uses: actions/upload-artifact@v2
+        with:
+            name: IINA.DEBUG.tgz
+            path: IINA.tgz
