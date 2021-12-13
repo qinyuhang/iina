@@ -5,6 +5,12 @@ on:
       branches: [develop]
   pull_request:
       branches: [develop]
+  workflow_dispatch:
+      inputs:
+          build_branch:
+              description: 'branch to build'
+              required: false
+              default: 'develop'
 
 jobs:
   build:
@@ -18,6 +24,8 @@ jobs:
     runs-on:  macos-12
     steps:
       - uses: actions/checkout@v3
+        with:
+            ref: ${{github.event.inputs.build_branch}}
 
       - name: Install dependencies
         run: ./other/download_libs.sh
